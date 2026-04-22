@@ -40,8 +40,8 @@ export function Header() {
   const logo = (
     <div className="relative shrink-0">
       <BrandLogo
-        className="h-auto"
-        textClassName="text-[1.35rem] sm:text-[1.55rem] md:text-[1.75rem]"
+        className="h-10 sm:h-11 md:h-12"
+        textClassName="text-[1.5rem] sm:text-[1.7rem] md:text-[1.9rem]"
         onClick={() => setIsMenuOpen(false)}
       />
     </div>
@@ -59,7 +59,7 @@ export function Header() {
       >
         <div
           aria-label="Top bar"
-          className="relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-[1rem] bg-[rgba(0,0,0,0.6)] px-4 py-1.5 shadow-[0_22px_50px_rgba(0,0,0,0.34)] backdrop-blur-[18px] md:w-auto md:grow md:basis-0 md:rounded-none md:bg-transparent md:px-0 md:py-0 md:shadow-none md:backdrop-blur-none"
+          className="relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-[0.6rem] bg-[rgba(0,0,0,0.6)] px-4 py-1.5 shadow-[0_22px_50px_rgba(0,0,0,0.34)] backdrop-blur-[18px] md:w-auto md:grow md:basis-0 md:rounded-none md:bg-transparent md:px-0 md:py-0 md:shadow-none md:backdrop-blur-none"
         >
           {logo}
 
@@ -157,7 +157,7 @@ export function Header() {
                     href={item.href}
                     aria-label={item.label}
                     onClick={() => setIsMenuOpen(false)}
-                    className="mobile-menu__link text-[40px] font-medium leading-none tracking-[-1px] text-white/96 sm:text-[44px]"
+                    className="mobile-menu__link font-medium leading-[1.08] tracking-[-0.3px] text-white/96"
                     style={{ animationDelay: `${180 + index * 70}ms` }}
                   >
                     {item.label}

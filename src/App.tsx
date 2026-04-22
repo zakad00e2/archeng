@@ -24,7 +24,7 @@ export default function App() {
         <div>
           <div className="content-center items-center relative flex min-h-[900px] flex-col justify-start gap-[0px] bg-white">
             <div className="contents">
-              <div className="absolute left-0 top-0 z-[50] w-full" style={{ order: '-1000' }}>
+              <div className="fixed left-0 top-0 z-[50] w-full md:absolute" style={{ order: '-1000' }}>
                 <div className="contents">
                   <Header />
                 </div>
