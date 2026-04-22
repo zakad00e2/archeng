@@ -335,21 +335,22 @@ animation: hero-letter-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
 .hero-heading span.inline-block:nth-child(12) { animation-delay: 370ms; }
 
 .about-mobile-carousel__viewport {
-touch-action: pan-y;
+overflow-x: auto;
+overflow-y: hidden;
+scroll-snap-type: x mandatory;
+overscroll-behavior-x: contain;
+scrollbar-width: none;
 border-radius: 1.15rem;
 box-shadow: 0 18px 50px rgba(16, 16, 20, 0.12);
+}
+
+.about-mobile-carousel__viewport::-webkit-scrollbar {
+display: none;
 }
 
 .about-mobile-carousel__track {
 display: flex;
 height: 100%;
-width: 100%;
-will-change: transform;
-transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.about-mobile-carousel__track.is-dragging {
-transition: none;
 }
 
 .about-mobile-carousel__slide {
@@ -359,6 +360,8 @@ width: 100%;
 min-width: 100%;
 height: 100%;
 overflow: hidden;
+scroll-snap-align: start;
+scroll-snap-stop: always;
 }
 
 .about-mobile-carousel__image {
@@ -425,18 +428,20 @@ transform: translateZ(0);
 }
 
 .testimonials-mobile-carousel__viewport {
-touch-action: pan-y;
+overflow-x: auto;
+overflow-y: hidden;
+scroll-snap-type: x mandatory;
+overscroll-behavior-x: contain;
+scrollbar-width: none;
+}
+
+.testimonials-mobile-carousel__viewport::-webkit-scrollbar {
+display: none;
 }
 
 .testimonials-mobile-carousel__track {
 display: flex;
 width: 100%;
-will-change: transform;
-transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.testimonials-mobile-carousel__track.is-dragging {
-transition: none;
 }
 
 .testimonials-mobile-carousel__slide {
@@ -444,6 +449,8 @@ flex: 0 0 100%;
 width: 100%;
 min-width: 100%;
 padding-bottom: 2px;
+scroll-snap-align: start;
+scroll-snap-stop: always;
 }
 
 .testimonials-mobile-carousel__slide > .relative {
@@ -553,6 +560,12 @@ transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
 .service-image.is-active {
 opacity: 1;
 transform: scale(1);
+}
+
+.service-image__media {
+max-width: 100%;
+max-height: 100%;
+margin-inline: auto;
 }
 
 .service-row {
@@ -956,6 +969,15 @@ display: none !important;
 body::before,
 body::after {
 opacity: 0.4;
+}
+
+.service-image {
+transform: none !important;
+}
+
+.service-image__media {
+object-fit: contain !important;
+object-position: center center !important;
 }
 
 [aria-label="Testimonials"] li:hover,

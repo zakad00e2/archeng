@@ -108,21 +108,24 @@ export function ServicesSection() {
 
         <div className="grid w-full items-start gap-[60px] lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-[130px]">
           <Reveal
-            className="services-visual relative min-h-[420px] aspect-[0.92/1] overflow-hidden rounded-[0.875rem] bg-[rgb(233,_236,_242)] lg:min-h-[686px]"
+            className="services-visual relative mx-auto min-h-[340px] w-full max-w-md aspect-[1/1.08] overflow-hidden rounded-[0.875rem] bg-[rgb(233,_236,_242)] md:min-h-[420px] md:max-w-none md:aspect-[0.92/1] lg:min-h-[686px]"
             delay={100}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/10"></div>
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className={['service-image absolute inset-0 p-3 md:p-0', index === activeImageIndex ? 'is-active' : '']
+                className={[
+                  'service-image absolute inset-0 flex items-center justify-center p-4 md:p-0',
+                  index === activeImageIndex ? 'is-active' : '',
+                ]
                   .filter(Boolean)
                   .join(' ')}
               >
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="block size-full object-contain md:object-cover"
+                  className="service-image__media block size-full object-contain md:object-cover"
                 />
               </div>
             ))}

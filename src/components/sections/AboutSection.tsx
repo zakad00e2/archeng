@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type TouchEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Reveal } from '../motion/Reveal';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -151,61 +151,34 @@ function AnimatedStat({ value, suffix, label, description, locale }: AnimatedSta
 export function AboutSection() {
   const { locale, messages } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
-  const interactionAxisRef = useRef<'undecided' | 'horizontal' | 'vertical'>('undecided');
+  const mobileCarouselRef = useRef<HTMLDivElement | null>(null);
 
-  const goToImage = (nextIndex: number) => {
+  const goToImage = (nextIndex: number, behavior: ScrollBehavior = 'smooth') => {
     const total = aboutImages.length;
-    setCurrentImageIndex((nextIndex + total) % total);
-  };
+    const normalizedIndex = (nextIndex + total) % total;
+    setCurrentImageIndex(normalizedIndex);
 
-  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    const touch = event.touches[0];
-    touchStartXRef.current = touch.clientX;
-    touchStartYRef.current = touch.clientY;
-    interactionAxisRef.current = 'undecided';
-    setIsDragging(true);
-  };
+    const carousel = mobileCarouselRef.current;
 
-  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-    if (touchStartXRef.current === null || touchStartYRef.current === null) {
+    if (!carousel) {
       return;
     }
 
-    const touch = event.touches[0];
-    const deltaX = touch.clientX - touchStartXRef.current;
-    const deltaY = touch.clientY - touchStartYRef.current;
+    carousel.scrollTo({
+      left: normalizedIndex * carousel.clientWidth,
+      behavior,
+    });
+  };
 
-    if (interactionAxisRef.current === 'undecided' && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
-      interactionAxisRef.current = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
-    }
+  const handleCarouselScroll = () => {
+    const carousel = mobileCarouselRef.current;
 
-    if (interactionAxisRef.current !== 'horizontal') {
+    if (!carousel || carousel.clientWidth === 0) {
       return;
     }
 
-    setDragOffset(deltaX);
-  };
-
-  const handleTouchEnd = () => {
-    const swipeThreshold = 50;
-
-    if (interactionAxisRef.current === 'horizontal') {
-      if (dragOffset <= -swipeThreshold) {
-        goToImage(currentImageIndex + 1);
-      } else if (dragOffset >= swipeThreshold) {
-        goToImage(currentImageIndex - 1);
-      }
-    }
-
-    touchStartXRef.current = null;
-    touchStartYRef.current = null;
-    interactionAxisRef.current = 'undecided';
-    setDragOffset(0);
-    setIsDragging(false);
+    const nextIndex = Math.round(carousel.scrollLeft / carousel.clientWidth);
+    setCurrentImageIndex(Math.max(0, Math.min(aboutImages.length - 1, nextIndex)));
   };
 
   return (
@@ -298,23 +271,15 @@ export function AboutSection() {
 
           <div
             aria-label="Mobile Carousel"
+            dir="ltr"
             className="about-mobile-carousel content-center items-center relative flex md:hidden h-min w-full flex-col justify-center gap-[20px] px-5"
           >
             <div
+              ref={mobileCarouselRef}
               className="about-mobile-carousel__viewport relative aspect-[0.727273/1] w-full max-w-md shrink-[0] overflow-hidden bg-white select-none"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              onTouchCancel={handleTouchEnd}
+              onScroll={handleCarouselScroll}
             >
-              <div
-                className={['about-mobile-carousel__track', isDragging ? 'is-dragging' : '']
-                  .filter(Boolean)
-                  .join(' ')}
-                style={{
-                  transform: `translate3d(calc(${-currentImageIndex * 100}% + ${dragOffset}px), 0, 0)`,
-                }}
-              >
+              <div className="about-mobile-carousel__track">
                 {aboutImages.map((image, index) => (
                   <div
                     key={image.src}

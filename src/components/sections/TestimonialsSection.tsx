@@ -1,4 +1,4 @@
-import { useRef, useState, type TouchEvent } from 'react';
+import { useRef, useState } from 'react';
 
 import { Reveal } from '../motion/Reveal';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -76,61 +76,34 @@ function Stars() {
 export function TestimonialsSection() {
   const { messages } = useI18n();
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
-  const interactionAxisRef = useRef<'undecided' | 'horizontal' | 'vertical'>('undecided');
+  const mobileCarouselRef = useRef<HTMLDivElement | null>(null);
 
-  const goToCard = (nextIndex: number) => {
+  const goToCard = (nextIndex: number, behavior: ScrollBehavior = 'smooth') => {
     const total = testimonialCards.length;
-    setCurrentCardIndex((nextIndex + total) % total);
-  };
+    const normalizedIndex = (nextIndex + total) % total;
+    setCurrentCardIndex(normalizedIndex);
 
-  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    const touch = event.touches[0];
-    touchStartXRef.current = touch.clientX;
-    touchStartYRef.current = touch.clientY;
-    interactionAxisRef.current = 'undecided';
-    setIsDragging(true);
-  };
+    const carousel = mobileCarouselRef.current;
 
-  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-    if (touchStartXRef.current === null || touchStartYRef.current === null) {
+    if (!carousel) {
       return;
     }
 
-    const touch = event.touches[0];
-    const deltaX = touch.clientX - touchStartXRef.current;
-    const deltaY = touch.clientY - touchStartYRef.current;
+    carousel.scrollTo({
+      left: normalizedIndex * carousel.clientWidth,
+      behavior,
+    });
+  };
 
-    if (interactionAxisRef.current === 'undecided' && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
-      interactionAxisRef.current = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
-    }
+  const handleCarouselScroll = () => {
+    const carousel = mobileCarouselRef.current;
 
-    if (interactionAxisRef.current !== 'horizontal') {
+    if (!carousel || carousel.clientWidth === 0) {
       return;
     }
 
-    setDragOffset(deltaX);
-  };
-
-  const handleTouchEnd = () => {
-    const swipeThreshold = 50;
-
-    if (interactionAxisRef.current === 'horizontal') {
-      if (dragOffset <= -swipeThreshold) {
-        goToCard(currentCardIndex + 1);
-      } else if (dragOffset >= swipeThreshold) {
-        goToCard(currentCardIndex - 1);
-      }
-    }
-
-    touchStartXRef.current = null;
-    touchStartYRef.current = null;
-    interactionAxisRef.current = 'undecided';
-    setDragOffset(0);
-    setIsDragging(false);
+    const nextIndex = Math.round(carousel.scrollLeft / carousel.clientWidth);
+    setCurrentCardIndex(Math.max(0, Math.min(testimonialCards.length - 1, nextIndex)));
   };
 
   const renderTestimonialCard = (
@@ -265,26 +238,15 @@ export function TestimonialsSection() {
 
           <div
             aria-label="Mobile Testimonials Carousel"
+            dir="ltr"
             className="testimonials-mobile-carousel relative flex w-full flex-col items-center justify-center gap-[20px] px-5 md:hidden"
           >
             <div
+              ref={mobileCarouselRef}
               className="testimonials-mobile-carousel__viewport relative w-full max-w-md overflow-hidden"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              onTouchCancel={handleTouchEnd}
+              onScroll={handleCarouselScroll}
             >
-              <div
-                className={[
-                  'testimonials-mobile-carousel__track',
-                  isDragging ? 'is-dragging' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                style={{
-                  transform: `translate3d(calc(${-currentCardIndex * 100}% + ${dragOffset}px), 0, 0)`,
-                }}
-              >
+              <div className="testimonials-mobile-carousel__track">
                 {testimonialCards.map((card, index) => (
                   <div
                     key={card.id}
