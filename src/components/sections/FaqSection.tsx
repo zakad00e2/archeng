@@ -120,7 +120,7 @@ export function FaqSection() {
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => setOpenIndex((current) => (current === index ? -1 : index))}
-                      className="content-center items-center relative flex h-min w-full justify-between overflow-hidden pt-5 pr-[25px] pb-5 pl-[25px]"
+                      className="faq-trigger content-center items-center relative flex h-min w-full justify-between overflow-hidden pt-5 pr-[25px] pb-5 pl-[25px]"
                       style={{ textAlign: 'start' }}
                     >
                       <div className="relative flex grow basis-0 w-px flex-col justify-start whitespace-pre-wrap shrink-[0]">
@@ -130,7 +130,7 @@ export function FaqSection() {
                       </div>
                       <div className="relative self-stretch w-5 shrink-[0]"></div>
                       <div
-                        className="relative h-6 w-6 shrink-[0]"
+                        className="faq-icon relative h-6 w-6 shrink-[0]"
                         style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
                       >
                         <div className="inline-block size-full overflow-hidden fill-[rgb(16,_16,_20)] text-[rgb(16,_16,_20)]">

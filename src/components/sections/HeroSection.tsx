@@ -107,8 +107,8 @@ export function HeroSection() {
               .filter(Boolean)
               .join(' ')}
           >
-            <div aria-label="Badge" className="hero-badge relative flex w-fit items-center justify-center gap-1 overflow-hidden rounded-full bg-[rgba(61,61,67,0.86)] px-[6px] pt-[2px] pb-[2px] md:gap-[10px] md:rounded-2xl md:bg-[rgb(40,_40,_44)] md:px-3 md:pt-[5px] md:pb-[6px]">
-              <div aria-label="Badge dot" className="relative aspect-square w-[3px] shrink-[0] md:w-2">
+            <div aria-label="Badge" className="hero-badge relative flex w-fit items-center justify-center gap-[6px] overflow-hidden rounded-full bg-[rgba(61,61,67,0.86)] px-[10px] pt-[5px] pb-[5px] md:gap-[10px] md:rounded-2xl md:bg-[rgb(40,_40,_44)] md:px-3 md:pt-[5px] md:pb-[6px]">
+              <div aria-label="Badge dot" className="relative aspect-square w-[5px] shrink-[0] md:w-2">
                 <div>
                   <div className="absolute left-[-4.94468px] top-[-4.94468px] right-[-4.94468px] bottom-[-4.94468px] rounded-[625rem] bg-white opacity-[0]"></div>
                   <div className="absolute left-[-4.57398px] top-[-4.57398px] right-[-4.57398px] bottom-[-4.57398px] rounded-[625rem] bg-white opacity-[0.00632814]"></div>
@@ -116,7 +116,7 @@ export function HeroSection() {
                 </div>
               </div>
               <div className="relative flex flex-col justify-start whitespace-pre shrink-[0]">
-                <p className="text-[4px] leading-[4px] text-[rgb(208,_209,_219)] md:text-[14px] md:leading-[14px]">
+                <p className="text-[14px] leading-[14px] text-[rgb(208,_209,_219)] md:text-[14px] md:leading-[14px]">
                   {messages.hero.badge}
                 </p>
               </div>
@@ -176,7 +176,7 @@ export function HeroSection() {
                   </div>
                   <div
                     aria-label="Arrow"
-                    className="hero-cta__arrow content-center items-center relative flex aspect-square w-[40px] justify-center gap-[10px] rounded-full shrink-[0] md:w-10 group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                    className="hero-cta__arrow content-center items-center relative flex aspect-square w-[46px] justify-center gap-[10px] rounded-full shrink-[0] md:w-10 group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   >
                     <div
                       aria-label="Arrow-right"

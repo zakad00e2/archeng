@@ -1,3 +1,5 @@
+import { useRef, useState, type TouchEvent } from 'react';
+
 import { Reveal } from '../motion/Reveal';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { TestimonialKey } from '../../i18n/types';
@@ -73,6 +75,128 @@ function Stars() {
 
 export function TestimonialsSection() {
   const { messages } = useI18n();
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+  const interactionAxisRef = useRef<'undecided' | 'horizontal' | 'vertical'>('undecided');
+
+  const goToCard = (nextIndex: number) => {
+    const total = testimonialCards.length;
+    setCurrentCardIndex((nextIndex + total) % total);
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    touchStartXRef.current = touch.clientX;
+    touchStartYRef.current = touch.clientY;
+    interactionAxisRef.current = 'undecided';
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) {
+      return;
+    }
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartXRef.current;
+    const deltaY = touch.clientY - touchStartYRef.current;
+
+    if (interactionAxisRef.current === 'undecided' && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+      interactionAxisRef.current = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
+    }
+
+    if (interactionAxisRef.current !== 'horizontal') {
+      return;
+    }
+
+    setDragOffset(deltaX);
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50;
+
+    if (interactionAxisRef.current === 'horizontal') {
+      if (dragOffset <= -swipeThreshold) {
+        goToCard(currentCardIndex + 1);
+      } else if (dragOffset >= swipeThreshold) {
+        goToCard(currentCardIndex - 1);
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+    interactionAxisRef.current = 'undecided';
+    setDragOffset(0);
+    setIsDragging(false);
+  };
+
+  const renderTestimonialCard = (
+    card: (typeof testimonialCards)[number],
+    index: number,
+    mode: 'desktop' | 'mobile'
+  ) => {
+    const testimonial = messages.testimonials.items[card.id];
+    const isMid = card.tone === 'mid';
+
+    return (
+      <div className={mode === 'desktop' ? 'relative h-full w-[400px]' : 'relative h-full w-full'}>
+        <div
+          className={[
+            'content-start items-start relative flex size-full flex-col justify-between overflow-hidden rounded-[0.625rem] pt-[30px] pr-10 pb-[30px] pl-10',
+            mode === 'mobile' ? 'min-h-[360px]' : '',
+            isMid ? 'bg-[rgb(233,_236,_242)]' : 'bg-[rgb(250,_250,_250)]',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <div className="pointer-events-none absolute inset-0 rounded-[0.625rem] border border-[rgb(230,_230,_230)]"></div>
+          <div
+            aria-label="Review"
+            className="content-start items-start relative flex h-min w-full flex-col justify-start gap-[10px] shrink-[0]"
+          >
+            <div className="relative shrink-[0]">
+              <Stars />
+            </div>
+            <div className="relative flex w-full flex-col justify-start whitespace-pre-wrap shrink-[0]">
+              <p
+                className="text-[18px] leading-[27px] tracking-[-0.1px] text-[rgb(61,_61,_71)]"
+                style={{ textAlign: 'start' }}
+              >
+                {testimonial.quote}
+              </p>
+            </div>
+          </div>
+          <div aria-label="Spacer" className="relative h-5 w-full shrink-[0]"></div>
+          <div
+            aria-label="Citation"
+            className="content-center items-center relative flex h-min w-full justify-start gap-[10px] overflow-hidden shrink-[0]"
+          >
+            <div className="relative h-10 w-10 overflow-hidden rounded-[62.5rem] shrink-[0] after:absolute after:left-0 after:top-0 after:size-full after:rounded-[62.5rem] after:border after:border-[rgb(219,_218,_217)] after:pointer-events-none after:content-[&quot;&quot;]">
+              <div className="absolute left-0 top-0 right-0 bottom-0 rounded-[62.5rem]">
+                <img
+                  src={card.avatar}
+                  alt={testimonial.author}
+                  className="block size-full rounded-[62.5rem] object-cover"
+                  style={card.avatarPosition ? { objectPosition: card.avatarPosition } : undefined}
+                />
+              </div>
+            </div>
+            <div className="relative flex grow basis-0 w-px flex-col justify-start whitespace-pre-wrap shrink-[0]">
+              <p
+                className="text-[18px] leading-[27px] tracking-[-0.1px] text-[rgb(16,_16,_20)]"
+                style={{ textAlign: 'start' }}
+              >
+                {testimonial.author}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section
@@ -124,78 +248,77 @@ export function TestimonialsSection() {
         <div className="relative w-full">
           <div
             aria-label="Desktop"
-            className="content-center items-center relative flex h-min w-full flex-col justify-center gap-[32px] overflow-hidden"
+            className="content-center items-center relative hidden md:flex h-min w-full flex-col justify-center gap-[32px] overflow-hidden"
           >
             <div className="relative h-[300px] w-full shrink-[0]">
               <section className="flex size-full max-h-full max-w-full items-center justify-items-center">
                 <ul className="testimonials-marquee relative flex size-full max-h-full max-w-full items-center gap-[32px] justify-items-center">
-                  {marqueeCards.map((card, index) => {
-                    const testimonial = messages.testimonials.items[card.id];
-                    const isMid = card.tone === 'mid';
-
-                    return (
-                      <li key={`${card.id}-${index}`} className="h-full w-[400px] list-none">
-                        <div className="relative h-full w-[400px]">
-                          <div
-                            className={[
-                              'content-start items-start relative flex size-full flex-col justify-between overflow-hidden rounded-[0.625rem] pt-[30px] pr-10 pb-[30px] pl-10',
-                              isMid ? 'bg-[rgb(233,_236,_242)]' : 'bg-[rgb(250,_250,_250)]',
-                            ]
-                              .filter(Boolean)
-                              .join(' ')}
-                          >
-                            <div className="pointer-events-none absolute inset-0 rounded-[0.625rem] border border-[rgb(230,_230,_230)]"></div>
-                            <div
-                              aria-label="Review"
-                              className="content-start items-start relative flex h-min w-full flex-col justify-start gap-[10px] shrink-[0]"
-                            >
-                              <div className="relative shrink-[0]">
-                                <Stars />
-                              </div>
-                              <div className="relative flex w-full flex-col justify-start whitespace-pre-wrap shrink-[0]">
-                                <p
-                                  className="text-[18px] leading-[27px] tracking-[-0.1px] text-[rgb(61,_61,_71)]"
-                                  style={{ textAlign: 'start' }}
-                                >
-                                  {testimonial.quote}
-                                </p>
-                              </div>
-                            </div>
-                            <div aria-label="Spacer" className="relative h-5 w-full shrink-[0]"></div>
-                            <div
-                              aria-label="Citation"
-                              className="content-center items-center relative flex h-min w-full justify-start gap-[10px] overflow-hidden shrink-[0]"
-                            >
-                              <div className="relative h-10 w-10 overflow-hidden rounded-[62.5rem] shrink-[0] after:absolute after:left-0 after:top-0 after:size-full after:rounded-[62.5rem] after:border after:border-[rgb(219,_218,_217)] after:pointer-events-none after:content-[&quot;&quot;]">
-                                <div className="absolute left-0 top-0 right-0 bottom-0 rounded-[62.5rem]">
-                                  <img
-                                    src={card.avatar}
-                                    alt={testimonial.author}
-                                    className="block size-full rounded-[62.5rem] object-cover"
-                                    style={
-                                      card.avatarPosition
-                                        ? { objectPosition: card.avatarPosition }
-                                        : undefined
-                                    }
-                                  />
-                                </div>
-                              </div>
-                              <div className="relative flex grow basis-0 w-px flex-col justify-start whitespace-pre-wrap shrink-[0]">
-                                <p
-                                  className="text-[18px] leading-[27px] tracking-[-0.1px] text-[rgb(16,_16,_20)]"
-                                  style={{ textAlign: 'start' }}
-                                >
-                                  {testimonial.author}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
+                  {marqueeCards.map((card, index) => (
+                    <li key={`${card.id}-${index}`} className="h-full w-[400px] list-none">
+                      {renderTestimonialCard(card, index, 'desktop')}
+                    </li>
+                  ))}
                 </ul>
               </section>
+            </div>
+          </div>
+
+          <div
+            aria-label="Mobile Testimonials Carousel"
+            className="testimonials-mobile-carousel relative flex w-full flex-col items-center justify-center gap-[20px] px-5 md:hidden"
+          >
+            <div
+              className="testimonials-mobile-carousel__viewport relative w-full max-w-md overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
+            >
+              <div
+                className={[
+                  'testimonials-mobile-carousel__track',
+                  isDragging ? 'is-dragging' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                style={{
+                  transform: `translate3d(calc(${-currentCardIndex * 100}% + ${dragOffset}px), 0, 0)`,
+                }}
+              >
+                {testimonialCards.map((card, index) => (
+                  <div
+                    key={card.id}
+                    className={[
+                      'testimonials-mobile-carousel__slide shrink-0',
+                      index === currentCardIndex ? 'is-active' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    {renderTestimonialCard(card, index, 'mobile')}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="testimonials-mobile-carousel__dots flex items-center justify-center">
+              {testimonialCards.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  aria-pressed={index === currentCardIndex}
+                  onClick={() => goToCard(index)}
+                  className={[
+                    'testimonials-mobile-carousel__dot',
+                    index === currentCardIndex ? 'is-active' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <span className="testimonials-mobile-carousel__dot-indicator"></span>
+                </button>
+              ))}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type TouchEvent } from 'react';
 
 import { Reveal } from '../motion/Reveal';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -151,6 +151,62 @@ function AnimatedStat({ value, suffix, label, description, locale }: AnimatedSta
 export function AboutSection() {
   const { locale, messages } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+  const interactionAxisRef = useRef<'undecided' | 'horizontal' | 'vertical'>('undecided');
+
+  const goToImage = (nextIndex: number) => {
+    const total = aboutImages.length;
+    setCurrentImageIndex((nextIndex + total) % total);
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    touchStartXRef.current = touch.clientX;
+    touchStartYRef.current = touch.clientY;
+    interactionAxisRef.current = 'undecided';
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) {
+      return;
+    }
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartXRef.current;
+    const deltaY = touch.clientY - touchStartYRef.current;
+
+    if (interactionAxisRef.current === 'undecided' && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+      interactionAxisRef.current = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
+    }
+
+    if (interactionAxisRef.current !== 'horizontal') {
+      return;
+    }
+
+    setDragOffset(deltaX);
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50;
+
+    if (interactionAxisRef.current === 'horizontal') {
+      if (dragOffset <= -swipeThreshold) {
+        goToImage(currentImageIndex + 1);
+      } else if (dragOffset >= swipeThreshold) {
+        goToImage(currentImageIndex - 1);
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+    interactionAxisRef.current = 'undecided';
+    setDragOffset(0);
+    setIsDragging(false);
+  };
 
   return (
     <section
@@ -242,36 +298,57 @@ export function AboutSection() {
 
           <div
             aria-label="Mobile Carousel"
-            className="content-center items-center relative flex md:hidden h-min w-full flex-col justify-center gap-[20px] px-5"
+            className="about-mobile-carousel content-center items-center relative flex md:hidden h-min w-full flex-col justify-center gap-[20px] px-5"
           >
-            <div 
-              className="relative aspect-[0.727273/1] w-full max-w-md shrink-[0] overflow-hidden bg-white cursor-pointer select-none"
-              onClick={() => setCurrentImageIndex((prev) => (prev + 1) % aboutImages.length)}
+            <div
+              className="about-mobile-carousel__viewport relative aspect-[0.727273/1] w-full max-w-md shrink-[0] overflow-hidden bg-white select-none"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
             >
-              {aboutImages.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.src}
-                  alt={`Slide ${index}`}
-                  className={[
-                    'absolute left-0 top-0 block size-full object-cover transition-opacity duration-500',
-                    index === currentImageIndex ? 'opacity-100 relative' : 'opacity-0'
-                  ].filter(Boolean).join(' ')}
-                />
-              ))}
+              <div
+                className={['about-mobile-carousel__track', isDragging ? 'is-dragging' : '']
+                  .filter(Boolean)
+                  .join(' ')}
+                style={{
+                  transform: `translate3d(calc(${-currentImageIndex * 100}% + ${dragOffset}px), 0, 0)`,
+                }}
+              >
+                {aboutImages.map((image, index) => (
+                  <div
+                    key={image.src}
+                    className={[
+                      'about-mobile-carousel__slide relative shrink-0',
+                      index === currentImageIndex ? 'is-active' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    <img
+                      src={image.src}
+                      alt=""
+                      className="about-mobile-carousel__image block size-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="about-mobile-carousel__dots flex justify-center items-center">
               {aboutImages.map((_, index) => (
                 <button
                   key={index}
                   type="button"
                   aria-label={`Go to slide ${index + 1}`}
-                  onClick={() => setCurrentImageIndex(index)}
+                  aria-pressed={index === currentImageIndex}
+                  onClick={() => goToImage(index)}
                   className={[
-                    'h-2 rounded-full transition-all duration-300',
-                    index === currentImageIndex ? 'w-6 bg-[rgb(16,_16,_20)]' : 'w-2 bg-[rgba(16,_16,_20,_0.2)]'
+                    'about-mobile-carousel__dot',
+                    index === currentImageIndex ? 'is-active' : '',
                   ].filter(Boolean).join(' ')}
-                />
+                >
+                  <span className="about-mobile-carousel__dot-indicator"></span>
+                </button>
               ))}
             </div>
           </div>

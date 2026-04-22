@@ -115,11 +115,15 @@ export function ServicesSection() {
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className={['service-image absolute inset-0', index === activeImageIndex ? 'is-active' : '']
+                className={['service-image absolute inset-0 p-3 md:p-0', index === activeImageIndex ? 'is-active' : '']
                   .filter(Boolean)
                   .join(' ')}
               >
-                <img src={service.image} alt={service.title} className="block size-full object-cover" />
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="block size-full object-contain md:object-cover"
+                />
               </div>
             ))}
           </Reveal>

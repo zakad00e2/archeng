@@ -96,18 +96,18 @@ export function Footer() {
                 aria-label="Bottom"
                 className='content-center items-center relative flex h-min w-full justify-between pt-10 pr-0 pb-0 pl-0 shrink-[0] after:absolute after:left-0 after:top-0 after:size-full after:border-t after:border-[rgb(34,_34,_34)] after:pointer-events-none after:content-[""]'
               >
-                <div className="relative flex grow basis-0 flex-col justify-start whitespace-pre-wrap w-px shrink-[0]">
-                  <p className="text-[16px] leading-[20.8px] tracking-[-0.1px] text-white">
+                <div className="footer-meta footer-meta--rights relative flex grow basis-0 flex-col justify-start whitespace-pre-wrap w-px shrink-[0]">
+                  <p className="footer-meta__text text-[16px] leading-[20.8px] tracking-[-0.1px] text-white">
                     {`© ${currentYear} Sireen. ${messages.footer.rightsReserved}`}
                   </p>
                 </div>
                 <div
                   aria-label="Bottom Right"
-                  className="content-center items-center relative flex grow basis-0 justify-end gap-[10px] h-min w-px shrink-[0]"
+                  className="footer-meta footer-meta--credit content-center items-center relative flex grow basis-0 justify-end gap-[10px] h-min w-px shrink-[0]"
                 >
                   <div className="relative flex flex-col justify-start whitespace-pre shrink-[0]">
                     <p
-                      className="text-[16px] leading-[20.8px] tracking-[-0.1px] text-white"
+                      className="footer-meta__text text-[16px] leading-[20.8px] tracking-[-0.1px] text-white"
                       style={{ textAlign: 'start' }}
                     >
                       {messages.footer.creditLabel} {messages.footer.creditBy} zakaria safi
