@@ -107,7 +107,7 @@ export function ContactSection() {
       ].join('\n')
     );
 
-    window.location.href = `mailto:hello@sireen.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:hello@shireen.com?subject=${subject}&body=${body}`;
     setSubmitMessage(messages.contact.form.success);
     setErrors({});
     setFormData(initialFormState);
@@ -123,8 +123,8 @@ export function ContactSection() {
     {
       key: 'email',
       label: messages.contact.info.email,
-      value: 'hello@sireen.com',
-      href: 'mailto:hello@sireen.com',
+      value: 'hello@shireen.com',
+      href: 'mailto:hello@shireen.com',
     },
     {
       key: 'phone',

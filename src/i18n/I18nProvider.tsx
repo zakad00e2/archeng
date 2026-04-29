@@ -8,7 +8,7 @@ import {
 import { directionByLocale, translations } from '.';
 import type { Locale, TranslationDictionary } from './types';
 
-const STORAGE_KEY = 'sireen.locale';
+const STORAGE_KEY = 'shireen.locale';
 const LOCALE_QUERY_PARAM = 'lang';
 
 type I18nContextValue = {

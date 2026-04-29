@@ -8,22 +8,24 @@ export function BrandLogo({ className = '', textClassName = '', onClick }: Brand
   return (
     <a
       href="#top"
-      aria-label="Sireen"
+      aria-label="شيرين"
       className={['brand-logo relative flex items-center justify-center no-underline', className]
         .filter(Boolean)
         .join(' ')}
       onClick={onClick}
     >
       <span
-        aria-label="sireen-logo"
+        aria-label="شعار شيرين"
+        dir="rtl"
+        lang="ar"
         className={[
-          'block whitespace-nowrap text-[1.8rem] font-semibold tracking-[0.12em] text-white',
+          'brand-logo__text block whitespace-nowrap text-[1.8rem] font-semibold tracking-[0.12em] text-white',
           textClassName,
         ]
           .filter(Boolean)
           .join(' ')}
       >
-        Sireen
+        شيرين
       </span>
     </a>
   );
