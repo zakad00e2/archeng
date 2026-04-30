@@ -1,32 +1,33 @@
 type BrandLogoProps = {
   className?: string;
-  textClassName?: string;
+  imageClassName?: string;
   onClick?: () => void;
 };
 
-export function BrandLogo({ className = '', textClassName = '', onClick }: BrandLogoProps) {
+const BRAND_NAME = '\u0646\u0648\u0631';
+const LOGO_ALT = '\u0634\u0639\u0627\u0631 \u0646\u0648\u0631';
+const LOGO_SRC = '/brand-logo.png';
+
+export function BrandLogo({ className = '', imageClassName = '', onClick }: BrandLogoProps) {
   return (
     <a
       href="#top"
-      aria-label="شيرين"
+      aria-label={BRAND_NAME}
       className={['brand-logo relative flex items-center justify-center no-underline', className]
         .filter(Boolean)
         .join(' ')}
       onClick={onClick}
     >
-      <span
-        aria-label="شعار شيرين"
-        dir="rtl"
-        lang="ar"
-        className={[
-          'brand-logo__text block whitespace-nowrap text-[1.8rem] font-semibold tracking-[0.12em] text-white',
-          textClassName,
-        ]
+      <img
+        src={LOGO_SRC}
+        alt={LOGO_ALT}
+        width="988"
+        height="1080"
+        decoding="async"
+        className={['brand-logo__image h-full w-auto object-contain', imageClassName]
           .filter(Boolean)
           .join(' ')}
-      >
-        شيرين
-      </span>
+      />
     </a>
   );
 }

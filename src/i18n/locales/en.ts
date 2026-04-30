@@ -2,9 +2,9 @@ import type { TranslationDictionary } from '../types';
 
 export const en = {
   metadata: {
-    title: 'Shireen | Home Improvement Specialists',
+    title: 'Noor | Home Improvement Specialists',
     description:
-      'Shireen designs and delivers refined home improvement projects, from kitchens and bathrooms to extensions, loft conversions, and external works.',
+      'Noor designs and delivers refined home improvement projects, from kitchens and bathrooms to extensions, loft conversions, and external works.',
   },
   skipToContent: 'Skip to content',
   aria: {
@@ -30,16 +30,16 @@ export const en = {
     badge: 'Available for work',
     heading: 'Your trusted partner for quality home improvements',
     description:
-      'Shireen delivers expert home improvements, creating beautiful and functional spaces with precision, care, and lasting craftsmanship.',
+      'Noor delivers expert home improvements, creating beautiful and functional spaces with precision, care, and lasting craftsmanship.',
     cta: 'Work with us',
     review:
-      '"Shireen has been a game-changer for our home. Their ability to balance functionality with elegant design is second to none."',
+      '"Noor has been a game-changer for our home. Their ability to balance functionality with elegant design is second to none."',
   },
   about: {
     badge: 'About us',
     heading: 'Home improvement specialists',
     description:
-      'At Shireen, we help homeowners upgrade their spaces with clear planning, careful execution, and a high standard of finish. From kitchens and bathrooms to loft conversions and exterior upgrades, we deliver work that feels considered, practical, and built to last.',
+      'At Noor, we help homeowners upgrade their spaces with clear planning, careful execution, and a high standard of finish. From kitchens and bathrooms to loft conversions and exterior upgrades, we deliver work that feels considered, practical, and built to last.',
     stats: [
       {
         value: 8,
@@ -118,7 +118,7 @@ export const en = {
           'This kitchen transformation introduced a cleaner layout, custom cabinetry, premium worktops, and integrated appliances to create a space that feels calm, efficient, and ready for everyday use or entertaining.',
         tags: ['Kitchen', '4 weeks'],
         quote:
-          'Shireen completely transformed our kitchen, making it both beautiful and highly functional. The craftsmanship was outstanding, and the team stayed professional and communicative throughout.',
+          'Noor completely transformed our kitchen, making it both beautiful and highly functional. The craftsmanship was outstanding, and the team stayed professional and communicative throughout.',
         author: 'Rachel Morgan',
       },
       gardenPath: {
@@ -127,7 +127,7 @@ export const en = {
           'We designed and built a durable garden path that improves flow through the outdoor space while giving it a sharper architectural finish. The final result feels natural, practical, and visually grounded.',
         tags: ['External works', '1 month'],
         quote:
-          'The team at Shireen did an amazing job on our garden path. It looks fantastic, feels solid underfoot, and has completely lifted the quality of the whole outdoor space.',
+          'The team at Noor did an amazing job on our garden path. It looks fantastic, feels solid underfoot, and has completely lifted the quality of the whole outdoor space.',
         author: 'Michael Turner',
       },
       bathroomRenovation: {
@@ -136,7 +136,7 @@ export const en = {
           'This renovation reworked the layout with refined tiling, better lighting, modern fixtures, and a calmer palette. The result is a bathroom that feels more spacious, polished, and comfortable to use every day.',
         tags: ['Bathroom', '6 weeks'],
         quote:
-          'Shireen turned our outdated bathroom into a stunning modern space. The quality of work was excellent, and the process felt organised from start to finish.',
+          'Noor turned our outdated bathroom into a stunning modern space. The quality of work was excellent, and the process felt organised from start to finish.',
         author: 'Laura Davies',
       },
     },
@@ -145,11 +145,11 @@ export const en = {
     badge: 'Testimonials',
     heading: 'Hear from our clients',
     description:
-      'Hear from our happy clients about the experience, service, and finish they received with Shireen.',
+      'Hear from our happy clients about the experience, service, and finish they received with Noor.',
     items: {
       emily: {
         quote:
-          'Shireen did an incredible job on our kitchen. The craftsmanship was top-notch, and the team was professional from start to finish. Highly recommend.',
+          'Noor did an incredible job on our kitchen. The craftsmanship was top-notch, and the team was professional from start to finish. Highly recommend.',
         author: 'Emily Carter',
       },
       james: {
@@ -164,17 +164,17 @@ export const en = {
       },
       daniel: {
         quote:
-          'Shireen transformed our outdoor space with a beautiful garden path. The work was completed on time, and the finish is excellent. A great team to work with.',
+          'Noor transformed our outdoor space with a beautiful garden path. The work was completed on time, and the finish is excellent. A great team to work with.',
         author: 'Daniel Foster',
       },
       oliver: {
         quote:
-          'Fantastic workmanship. The team renovated our bathroom with precision and care, and it now feels like a genuine luxury space. We would definitely use Shireen again.',
+          'Fantastic workmanship. The team renovated our bathroom with precision and care, and it now feels like a genuine luxury space. We would definitely use Noor again.',
         author: 'Oliver Bennett',
       },
       charlotte: {
         quote:
-          'From the first consultation to the final touches, Shireen delivered on every promise. Our home extension is exactly what we wanted: spacious, modern, and beautifully finished.',
+          'From the first consultation to the final touches, Noor delivered on every promise. Our home extension is exactly what we wanted: spacious, modern, and beautifully finished.',
         author: 'Charlotte Harris',
       },
     },

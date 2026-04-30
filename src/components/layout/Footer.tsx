@@ -36,7 +36,10 @@ export function Footer() {
                   className="content-center items-center relative flex grow basis-0 justify-start gap-[10px] w-px shrink-[0]"
                 >
                   <div className="relative shrink-[0]">
-                    <BrandLogo textClassName="text-[1.3rem] sm:text-[1.45rem] md:text-[1.6rem]" />
+                    <BrandLogo
+                      className="h-16 w-[3.75rem] sm:h-[4.5rem] sm:w-[4.125rem]"
+                      imageClassName="drop-shadow-[0_10px_24px_rgba(0,0,0,0.32)]"
+                    />
                   </div>
                 </div>
                 <div
@@ -98,7 +101,7 @@ export function Footer() {
               >
                 <div className="footer-meta footer-meta--rights relative flex grow basis-0 flex-col justify-start whitespace-pre-wrap w-px shrink-[0]">
                   <p className="footer-meta__text text-[16px] leading-[20.8px] tracking-[-0.1px] text-white">
-                    {`© ${currentYear} شيرين. ${messages.footer.rightsReserved}`}
+                    {`© ${currentYear} نور. ${messages.footer.rightsReserved}`}
                   </p>
                 </div>
                 <div

@@ -40,8 +40,8 @@ export function Header() {
   const logo = (
     <div className="relative shrink-0">
       <BrandLogo
-        className="h-10 sm:h-11 md:h-12"
-        textClassName="text-[1.5rem] sm:text-[1.7rem] md:text-[1.9rem]"
+        className="h-12 w-[2.75rem] sm:h-14 sm:w-[3.25rem] md:h-16 md:w-[3.75rem]"
+        imageClassName="drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]"
         onClick={() => setIsMenuOpen(false)}
       />
     </div>
