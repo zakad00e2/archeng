@@ -4,9 +4,9 @@ type BrandLogoProps = {
   onClick?: () => void;
 };
 
-const BRAND_NAME = '\u0646\u0648\u0631';
-const LOGO_ALT = '\u0634\u0639\u0627\u0631 \u0646\u0648\u0631';
-const LOGO_SRC = '/brand-logo.png';
+const BRAND_NAME = 'ARDDAS';
+const LOGO_ALT = 'ARDDAS logo';
+const LOGO_SRC = '/arddas-logo.png';
 
 export function BrandLogo({ className = '', imageClassName = '', onClick }: BrandLogoProps) {
   return (
@@ -21,10 +21,10 @@ export function BrandLogo({ className = '', imageClassName = '', onClick }: Bran
       <img
         src={LOGO_SRC}
         alt={LOGO_ALT}
-        width="988"
-        height="1080"
+        width="1320"
+        height="335"
         decoding="async"
-        className={['brand-logo__image h-full w-auto object-contain', imageClassName]
+        className={['brand-logo__image h-full w-full object-contain', imageClassName]
           .filter(Boolean)
           .join(' ')}
       />
