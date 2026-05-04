@@ -1,14 +1,12 @@
 type BrandLogoProps = {
   className?: string;
-  imageClassName?: string;
+  textClassName?: string;
   onClick?: () => void;
 };
 
-const BRAND_NAME = 'ARDDAS';
-const LOGO_ALT = 'ARDDAS logo';
-const LOGO_SRC = '/arddas-logo.png';
+const BRAND_NAME = 'ايمان';
 
-export function BrandLogo({ className = '', imageClassName = '', onClick }: BrandLogoProps) {
+export function BrandLogo({ className = '', textClassName = '', onClick }: BrandLogoProps) {
   return (
     <a
       href="#top"
@@ -18,16 +16,15 @@ export function BrandLogo({ className = '', imageClassName = '', onClick }: Bran
         .join(' ')}
       onClick={onClick}
     >
-      <img
-        src={LOGO_SRC}
-        alt={LOGO_ALT}
-        width="1320"
-        height="335"
-        decoding="async"
-        className={['brand-logo__image h-full w-full object-contain', imageClassName]
+      <span
+        dir="rtl"
+        lang="ar"
+        className={['brand-logo__text h-full w-full', textClassName]
           .filter(Boolean)
           .join(' ')}
-      />
+      >
+        {BRAND_NAME}
+      </span>
     </a>
   );
 }

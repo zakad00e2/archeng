@@ -37,8 +37,8 @@ export function Footer() {
                 >
                   <div className="relative shrink-[0]">
                     <BrandLogo
-                      className="h-12 w-40 sm:h-14 sm:w-48"
-                      imageClassName="drop-shadow-[0_10px_24px_rgba(0,0,0,0.32)]"
+                      className="brand-logo--footer h-12 w-28 sm:h-14 sm:w-32"
+                      textClassName="drop-shadow-[0_10px_24px_rgba(0,0,0,0.32)]"
                     />
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export function Footer() {
               >
                 <div className="footer-meta footer-meta--rights relative flex grow basis-0 flex-col justify-start whitespace-pre-wrap w-px shrink-[0]">
                   <p className="footer-meta__text text-[16px] leading-[20.8px] tracking-[-0.1px] text-white">
-                    {`© ${currentYear} نسرين. ${messages.footer.rightsReserved}`}
+                    {`© ${currentYear} ايمان. ${messages.footer.rightsReserved}`}
                   </p>
                 </div>
                 <div

@@ -93,9 +93,44 @@ transform: translateY(1px) scale(0.985);
 transform: none;
 }
 
-.brand-logo__image {
+.brand-logo__text {
+align-items: center;
+color: #fff;
+display: flex;
+font-family: 'Thmanyah Serif Display', var(--font-ar);
+font-feature-settings: 'ss01', 'cv11';
+font-weight: 500;
+justify-content: center;
+letter-spacing: 0;
+line-height: 1.28;
 max-width: 100%;
-max-height: 100%;
+overflow: visible;
+padding-bottom: 0.08em;
+white-space: nowrap;
+}
+
+.brand-logo--header .brand-logo__text {
+font-size: 24px;
+}
+
+.brand-logo--footer .brand-logo__text {
+font-size: 34px;
+}
+
+@media (min-width: 640px) {
+.brand-logo--header .brand-logo__text {
+font-size: 28px;
+}
+
+.brand-logo--footer .brand-logo__text {
+font-size: 40px;
+}
+}
+
+@media (min-width: 768px) {
+.brand-logo--header .brand-logo__text {
+font-size: 32px;
+}
 }
 
 a:focus-visible,
