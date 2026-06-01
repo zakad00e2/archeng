@@ -101,7 +101,7 @@ export function Footer() {
               >
                 <div className="footer-meta footer-meta--rights relative flex grow basis-0 flex-col justify-start whitespace-pre-wrap w-px shrink-[0]">
                   <p className="footer-meta__text text-[16px] leading-[20.8px] tracking-[-0.1px] text-white">
-                    {`© ${currentYear} ايمان. ${messages.footer.rightsReserved}`}
+                    {`© ${currentYear} طارق. ${messages.footer.rightsReserved}`}
                   </p>
                 </div>
                 <div

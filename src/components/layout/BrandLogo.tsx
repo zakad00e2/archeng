@@ -4,7 +4,7 @@ type BrandLogoProps = {
   onClick?: () => void;
 };
 
-const BRAND_NAME = 'ايمان';
+const BRAND_NAME = 'طارق';
 
 export function BrandLogo({ className = '', textClassName = '', onClick }: BrandLogoProps) {
   return (
