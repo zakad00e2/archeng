@@ -19,7 +19,7 @@ export function FaqSection() {
       >
         <Reveal
           aria-label="Content"
-          className="content-start items-start relative top-[100px] flex h-min w-full grow basis-0 flex-col justify-start gap-[40px] overflow-hidden z-[1] lg:sticky lg:w-px shrink-[0]"
+          className="faq-reveal content-start items-start relative top-[100px] flex h-min w-full grow basis-0 flex-col justify-start gap-[40px] overflow-hidden z-[1] lg:sticky lg:w-px shrink-[0]"
         >
           <div className="content-start items-start relative flex h-min w-full flex-col justify-start gap-[10px] shrink-[0]">
             <div className="relative">
@@ -106,7 +106,12 @@ export function FaqSection() {
               const isOpen = openIndex === index;
 
               return (
-                <Reveal key={item.question} className="relative w-full" delay={90 + index * 45}>
+                <Reveal
+                  key={item.question}
+                  className="faq-reveal relative w-full"
+                  delay={140 + index * 70}
+                  distance={24}
+                >
                   <div
                     className={[
                       'faq-card relative w-full rounded-[0.625rem] bg-[rgb(250,_250,_250)]',
